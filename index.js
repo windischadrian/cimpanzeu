@@ -65,7 +65,7 @@ function voiceChannelJoin(voiceChannel) {
 function voiceChannelLeave(voiceChannel) {
     if (client.voice.connections) {
         const connection = getVoiceConnection(voiceChannel.guild.id);
-        connection.leave();
+        connection.destroy();
     } else {
         message.reply("Not in any voice channel.").then(msg => {
             setTimeout(() => {
