@@ -61,6 +61,7 @@ function voiceChannelJoin(message, voiceChannel) {
 }
 
 function voiceChannelLeave(message, voiceChannel) {
+    console.log('client: ' + client);
     console.log('connections: ' + client.voice.connections);
     if (client.voice.connections) {
         const connection = getVoiceConnection(voiceChannel.guild.id);
