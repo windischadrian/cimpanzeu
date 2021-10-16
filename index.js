@@ -29,16 +29,16 @@ client.on("message", async message => {
     console.log('voice channel ' + voiceChannel)
 
     if(messageText === '?join') {
-        voiceChannelJoin(voiceChannel);
+        voiceChannelJoin(message, voiceChannel);
     }
 
     if(messageText === '?leave') {
-       voiceChannelLeave()
+       voiceChannelLeave(message, voiceChannel)
     }
 })
 
 
-function voiceChannelJoin(voiceChannel) {
+function voiceChannelJoin(message, voiceChannel) {
     if (voiceChannel) { 
         if (!client.voice.connections) {
             const connection = joinVoiceChannel({
@@ -62,7 +62,7 @@ function voiceChannelJoin(voiceChannel) {
     }
 }
 
-function voiceChannelLeave(voiceChannel) {
+function voiceChannelLeave(message, voiceChannel) {
     if (client.voice.connections) {
         const connection = getVoiceConnection(voiceChannel.guild.id);
         connection.destroy();
