@@ -1,8 +1,9 @@
 require('dotenv').config()
 
 const { Client, Intents, Channel } = require('discord.js');
+const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-
+const replyTimeout = 10000;
 isReady = false;
 
 client.login(process.env.BOT_TOKEN);
@@ -30,23 +31,28 @@ client.on("message", async message => {
     if(messageText === '?join') {
         if (voiceChannel) { 
             if (!client.voice.connections) {
-                const connection = await voiceChannel.join()
+                const connection = joinVoiceChannel({
+                    channelId: voiceChannel.id,
+                    guildId: voiceChannel.guild.id,
+                    adapterCreator:voiceChannel.guild.voiceAdapterCreator,
+                });
             } else {
                 let m = await message.reply("Already connected to a voice channel.");
-                m.delete({ timeout: 5000 })
+                m.delete({ timeout: replyTimeout })
             }
         } else {
             let m = await message.reply("You need to be in a voice channel!")
-            m.delete({ timeout: 5000 })
+            m.delete({ timeout: replyTimeout })
         }
     }
 
     if(messageText === '?leave') {
         if (client.voice.connections) {
-            messageChannel.leave();
+            const connection = getVoiceConnection(voiceChannel.guild.id);
+            connection.leave();
         } else {
             let m = await message.reply("Not in any voice channel.")
-            m.delete({ timeout: 5000 })
+            m.delete({ timeout: replyTimeout })
         }
     }
 })
