@@ -37,12 +37,14 @@ client.on("message", async message => {
                     adapterCreator:voiceChannel.guild.voiceAdapterCreator,
                 });
             } else {
-                let m = await message.reply("Already connected to a voice channel.");
-                m.delete({ timeout: replyTimeout })
+                message.reply("Already connected to a voice channel.").then(msg => {
+                    msg.delete({ timeout: replyTimeout })
+                  })
             }
         } else {
-            let m = await message.reply("You need to be in a voice channel!")
-            m.delete({ timeout: replyTimeout })
+            message.reply("You need to be in a voice channel!").then(msg => {
+                msg.delete({ timeout: replyTimeout })
+              })
         }
     }
 
@@ -51,8 +53,9 @@ client.on("message", async message => {
             const connection = getVoiceConnection(voiceChannel.guild.id);
             connection.leave();
         } else {
-            let m = await message.reply("Not in any voice channel.")
-            m.delete({ timeout: replyTimeout })
+            message.reply("Not in any voice channel.").then(msg => {
+                msg.delete({ timeout: replyTimeout })
+              })
         }
     }
 })
