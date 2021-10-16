@@ -42,7 +42,7 @@ client.on("message", async message => {
     }
 
     if(messageText === '?leave') {
-        if (client.voice.connections.size > 0) {
+        if (client.voice.connections) {
             messageChannel.leave();
         } else {
             let m = await message.reply("Not in any voice channel.")
