@@ -3,7 +3,7 @@ require('dotenv').config()
 const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const replyTimeout = 10000;
+const replyTimeout = 100000;
 isReady = false;
 
 client.login(process.env.BOT_TOKEN);
