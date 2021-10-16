@@ -19,12 +19,10 @@ client.on("message", async message => {
     if (!isReady) return;
     if (message.author.bot) return;
 
-    const messageChannel = message.channel;
-    const voiceChannel = message.member.voice.channel;
-    const messageText = message.content.toLowerCase();
+    let messageChannel = message.channel;
+    let voiceChannel = message.member.voice.channel;
+    let messageText = message.content.toLowerCase();
     
-    console.log(client.voice)
-    console.log(client.voice.connections)
     console.log('message member ' + message.member)
     console.log('voice channel ' + voiceChannel)
 
