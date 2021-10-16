@@ -80,7 +80,7 @@ function voiceChannelJoin(message, voiceChannel) {
 }
 
 function voiceChannelLeave(message, voiceChannel) {
-    let connection = queue.get(message.gulid.id).connection;
+    let connection = queue.get(message.guild.id).connection;
 
     if (!connection) return message.reply("Not in any voice channel.");
 
