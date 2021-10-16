@@ -24,9 +24,8 @@ client.on("message", async message => {
     
     console.log(client.voice)
     console.log(client.voice.connections)
-    console.log(message)
-    console.log(message.member)
-    console.log(voiceChannel)
+    console.log('message member ' + message.member)
+    console.log('voice channel ' + voiceChannel)
 
     if(messageText === '?join') {
         if (voiceChannel) { 
