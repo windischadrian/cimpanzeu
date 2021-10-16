@@ -22,9 +22,6 @@ client.on("message", async message => {
     let messageChannel = message.channel;
     let voiceChannel = message.member.voice.channel;
     let messageText = message.content.toLowerCase();
-    
-    console.log('message member ' + message.member)
-    console.log('voice channel ' + voiceChannel)
 
     if(messageText === '?join') voiceChannelJoin(message, voiceChannel);
 
@@ -51,7 +48,7 @@ function voiceChannelLeave(message, voiceChannel) {
     console.log('voice: ' + message.guild.me.voice);
     if (!message.guild.me.voice.channel) return message.reply("Not in any voice channel.");
 
-    const connection = getVoiceConnection(message.guild.me);
+    const connection = getVoiceConnection(voiceChannel.guildId);
     connection.disconnect();
     connection.destroy();
 }
