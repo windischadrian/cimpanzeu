@@ -14,7 +14,7 @@ client.on("ready", () => {
 
 
 
-client.on("message", message => {
+client.on("message", async message => {
     if (!isReady) return;
     if (message.author.bot) return;
 
