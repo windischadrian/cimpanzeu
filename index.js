@@ -98,7 +98,7 @@ function executePlayCommand(message, voiceChannel) {
 
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
-    if (!audiioName) return message.reply("Forgot song title?");
+    if (!audioName) return message.reply("Forgot song title?");
 
     if (!queue.get(message.guild.id).connection) voiceChannelJoin(message, voiceChannel);
 
