@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 const replyTimeout = 100000;
 isReady = false;
 
@@ -61,6 +61,7 @@ function voiceChannelJoin(message, voiceChannel) {
 }
 
 function voiceChannelLeave(message, voiceChannel) {
+    console.log('connections: ' + client.voice.connections);
     if (client.voice.connections) {
         const connection = getVoiceConnection(voiceChannel.guild.id);
         connection.destroy();
