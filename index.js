@@ -29,33 +29,42 @@ client.on("message", async message => {
     console.log('voice channel ' + voiceChannel)
 
     if(messageText === '?join') {
-        if (voiceChannel) { 
-            if (!client.voice.connections) {
-                const connection = joinVoiceChannel({
-                    channelId: voiceChannel.id,
-                    guildId: voiceChannel.guild.id,
-                    adapterCreator:voiceChannel.guild.voiceAdapterCreator,
-                });
-            } else {
-                message.reply("Already connected to a voice channel.").then(msg => {
-                    msg.delete({ timeout: replyTimeout })
-                  })
-            }
-        } else {
-            message.reply("You need to be in a voice channel!").then(msg => {
-                msg.delete({ timeout: replyTimeout })
-              })
-        }
+        voiceChannelJoin(voiceChannel);
     }
 
     if(messageText === '?leave') {
-        if (client.voice.connections) {
-            const connection = getVoiceConnection(voiceChannel.guild.id);
-            connection.leave();
+       voiceChannelLeave()
+    }
+})
+
+
+function voiceChannelJoin(voiceChannel) {
+    if (voiceChannel) { 
+        if (!client.voice.connections) {
+            const connection = joinVoiceChannel({
+                channelId: voiceChannel.id,
+                guildId: voiceChannel.guild.id,
+                adapterCreator:voiceChannel.guild.voiceAdapterCreator,
+            });
         } else {
-            message.reply("Not in any voice channel.").then(msg => {
+            message.reply("Already connected to a voice channel.").then(msg => {
                 msg.delete({ timeout: replyTimeout })
               })
         }
+    } else {
+        message.reply("You need to be in a voice channel!").then(msg => {
+            msg.delete({ timeout: replyTimeout })
+          })
     }
-})
+}
+
+function voiceChannelLeave(voiceChannel) {
+    if (client.voice.connections) {
+        const connection = getVoiceConnection(voiceChannel.guild.id);
+        connection.leave();
+    } else {
+        message.reply("Not in any voice channel.").then(msg => {
+            msg.delete({ timeout: replyTimeout })
+          })
+    }
+}
