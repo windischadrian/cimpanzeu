@@ -89,7 +89,7 @@ function voiceChannelLeave(message) {
     connection.disconnect();
     connection.destroy();
 
-    queue.get(message.guild.id).connection = null;
+    queue.delete(message.guild.id);
 }
 
 function executePlayCommand(message, voiceChannel) {
@@ -100,7 +100,7 @@ function executePlayCommand(message, voiceChannel) {
 
     if (!audioName) return message.reply("Forgot song title?");
 
-    if (!queue.get(message.guild.id).connection) voiceChannelJoin(message, voiceChannel);
+    if (!queue.get(message.guild.id)) voiceChannelJoin(message, voiceChannel);
 
     messageChannel.send('Added *' + audioName + '* to the queue.');
     
