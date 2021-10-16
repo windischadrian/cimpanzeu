@@ -90,9 +90,6 @@ function voiceChannelLeave(message) {
     connection.destroy();
 
     queue.get(message.guild.id).connection = null;
-
-    console.log(queue.get(message.guild.id));
-    console.log(queue.get(message.guild.id).connection);
 }
 
 function executePlayCommand(message, voiceChannel) {
@@ -101,9 +98,11 @@ function executePlayCommand(message, voiceChannel) {
 
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
-    if (!queue.get(message.guild.id)) voiceChannelJoin(message, voiceChannel);
+    if (!audiioName) return message.reply("Forgot song title?");
 
-    messageChannel.send('Added ' + audioName + ' to the queue.');
+    if (!queue.get(message.guild.id).connection) voiceChannelJoin(message, voiceChannel);
+
+    messageChannel.send('Added *' + audioName + '* to the queue.');
     
 }
 
