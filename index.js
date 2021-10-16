@@ -45,7 +45,6 @@ client.on("message", async message => {
     let voiceChannel = message.member.voice.channel;
     let messageText = message.content.toLowerCase();
     
-    console.log(message);
     if(messageText.startsWith(prefix + 'join')) voiceChannelJoin(message, voiceChannel);
 
     if(messageText.startsWith(prefix + 'leave')) voiceChannelLeave(message);
@@ -91,6 +90,9 @@ function voiceChannelLeave(message) {
     connection.destroy();
 
     queue.get(message.guild.id).connection = null;
+
+    console.log(queue.get(message.guild.id));
+    console.log(queue.get(message.guild.id).connection);
 }
 
 function executePlayCommand(message, voiceChannel) {
