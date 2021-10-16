@@ -19,18 +19,29 @@ client.on("message", async message => {
     if (message.author.bot) return;
 
     const messageChannel = message.channel;
-    const voiceChannel = message.member.guild.voiceChannel;
+    const voiceChannel = message.member.voice.channel;
     const messageText = message.content.toLowerCase();
 
     if(messageText === '?join') {
-        const connection = await message.member.voice.channel.join();
+        if (voiceChannel) { 
+            if (!client.voice.connections.some(conn => conn.channel.id == voiceChannel.id)) {
+                const connection = await voiceChannel.join()
+            } else {
+                let m = await message.reply("Already connected to the voice channel.");
+                m.delete({ timeout: 5000 })
+            }
+        } else {
+            let m = await message.reply("You need to be in a voice channel!")
+            m.delete({ timeout: 5000 })
+        }
     }
 
     if(messageText === '?leave') {
         if (client.voice.connections.size > 0) {
             messageChannel.leave();
         } else {
-            messageChannel.send("Not in any voice channel.");
+            let m = await message.reply("Not in any voice channel.")
+            m.delete({ timeout: 5000 })
         }
     }
 })
