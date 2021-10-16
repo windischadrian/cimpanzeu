@@ -29,10 +29,10 @@ client.on("message", async message => {
 
     if(messageText === '?join') {
         if (voiceChannel) { 
-            if (!client.voice.connections.some(conn => conn.channel.id == voiceChannel.id)) {
+            if (!client.voice.connections) {
                 const connection = await voiceChannel.join()
             } else {
-                let m = await message.reply("Already connected to the voice channel.");
+                let m = await message.reply("Already connected to a voice channel.");
                 m.delete({ timeout: 5000 })
             }
         } else {
