@@ -3,8 +3,31 @@ require('dotenv').config()
 const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
-const replyTimeout = 100000;
+const prefix = "?";
 isReady = false;
+
+const queue = new Map();
+
+/*
+const queueConstruct = {
+    textChannel: message.channel,
+    voiceChannel: voiceChannel,
+    connection: null,
+    songs: [],
+    search: [],
+    volume: 5,
+    playing: true,
+    leaveTimer: null /* 20 seconds in question 
+  };
+  */
+  //queue.set('1234567812345678', queueContruct);
+  
+  // 2. get queueContruct from queue
+  //const serverQueue = queue.get('1234567812345678');
+  //if(!serverQueue) { /* not exist */ }
+  
+  // 3. delete from queue
+  //queue.delete('1234567812345678');
 
 client.login(process.env.BOT_TOKEN);
 
@@ -34,20 +57,36 @@ function voiceChannelJoin(message, voiceChannel) {
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
         
     if (client.voice.connections) return message.reply("Already connected to a voice channel.");
-        
+
     const connection = joinVoiceChannel({
         channelId: voiceChannel.id,
         guildId: voiceChannel.guild.id,
         adapterCreator:voiceChannel.guild.voiceAdapterCreator,
     });
 
+            
+    const queueConstruct = {
+        textChannel: message.channel,
+        voiceChannel: voiceChannel,
+        connection: connection,
+        songs: [],
+        search: [],
+        volume: 5,
+        playing: false
+      };
+
+    queue.set(message.guild.id, queueConstruct);
+
 }
 
 function voiceChannelLeave(message, voiceChannel) {
-    console.log(message.guild.voiceConnection)
-    let connection = message.guild.voiceConnection;
+    let connection = queue.get(message.gulid.id).connection;
+
     if (!connection) return message.reply("Not in any voice channel.");
+
     connection.disconnect();
     connection.destroy();
+
+    queue.get(message.guild.id).connection = null;
 }
 
