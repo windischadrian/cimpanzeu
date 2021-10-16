@@ -26,42 +26,31 @@ client.on("message", async message => {
     console.log('message member ' + message.member)
     console.log('voice channel ' + voiceChannel)
 
-    if(messageText === '?join') {
-        voiceChannelJoin(message, voiceChannel);
-    }
+    if(messageText === '?join') voiceChannelJoin(message, voiceChannel);
 
-    if(messageText === '?leave') {
-       voiceChannelLeave(message, voiceChannel)
-    }
+    if(messageText === '?leave') voiceChannelLeave(message, voiceChannel);
+
 })
 
 
 function voiceChannelJoin(message, voiceChannel) {
-    if (!voiceChannel) { 
-        message.reply("You need to be in a voice channel.");
-    }
-    if (!client.voice.connections) {
-        const connection = joinVoiceChannel({
-            channelId: voiceChannel.id,
-            guildId: voiceChannel.guild.id,
-            adapterCreator:voiceChannel.guild.voiceAdapterCreator,
-        });
-        console.log('Connection created ' + connection);
-    } else {
-        message.reply("Already connected to a voice channel.");
-    }
+    if (!voiceChannel) return message.reply("You need to be in a voice channel.");
+        
+    if (client.voice.connections) return message.reply("Already connected to a voice channel.");
+        
+    const connection = joinVoiceChannel({
+        channelId: voiceChannel.id,
+        guildId: voiceChannel.guild.id,
+        adapterCreator:voiceChannel.guild.voiceAdapterCreator,
+    });
+
 }
 
 function voiceChannelLeave(message, voiceChannel) {
     const connection = getVoiceConnection(voiceChannel.guild.id);
-    if (connection) {
-        connection.disconnect();
-        connection.destroy();
-    } else {
-        message.reply("Not in any voice channel.").then(msg => {
-            setTimeout(() => {
-                msg.delete();
-             }, 100);
-          })
-    }
+    if (!connection) return message.reply("Not in any voice channel.");
+
+    connection.disconnect();
+    connection.destroy();
 }
+
