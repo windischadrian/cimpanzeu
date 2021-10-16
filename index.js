@@ -19,7 +19,7 @@ client.on("message", async message => {
     if (message.author.bot) return;
 
     const messageChannel = message.channel;
-    const voiceChannel = message.member.guild.voiceChannel();
+    const voiceChannel = message.member.guild.voiceChannel;
     const messageText = message.content.toLowerCase();
 
     if(messageText === '?join') {
