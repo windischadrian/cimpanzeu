@@ -48,12 +48,16 @@ function voiceChannelJoin(voiceChannel) {
             });
         } else {
             message.reply("Already connected to a voice channel.").then(msg => {
-                msg.delete({ timeout: replyTimeout })
+                setTimeout(() => {
+                    msg.delete();
+                 }, 100);
               })
         }
     } else {
         message.reply("You need to be in a voice channel!").then(msg => {
-            msg.delete({ timeout: replyTimeout })
+            setTimeout(() => {
+                msg.delete();
+             }, 100);
           })
     }
 }
@@ -64,7 +68,9 @@ function voiceChannelLeave(voiceChannel) {
         connection.leave();
     } else {
         message.reply("Not in any voice channel.").then(msg => {
-            msg.delete({ timeout: replyTimeout })
+            setTimeout(() => {
+                msg.delete();
+             }, 100);
           })
     }
 }
