@@ -21,6 +21,9 @@ client.on("message", async message => {
     const messageChannel = message.channel;
     const voiceChannel = message.member.voice.channel;
     const messageText = message.content.toLowerCase();
+    
+    console.log(client.voice)
+    console.log(client.voice.connections)
 
     if(messageText === '?join') {
         if (voiceChannel) { 
