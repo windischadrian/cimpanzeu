@@ -3,7 +3,7 @@ require('dotenv').config()
 const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
-const prefix = "?";
+const prefix = '?';
 isReady = false;
 
 const queue = new Map();
@@ -44,12 +44,13 @@ client.on("message", async message => {
 
     let voiceChannel = message.member.voice.channel;
     let messageText = message.content.toLowerCase();
+    
+    console.log(message);
+    if(messageText.startsWith(prefix + 'join')) voiceChannelJoin(message, voiceChannel);
 
-    if(messageText.startsWith('${prefix}join')) voiceChannelJoin(message, voiceChannel);
+    if(messageText.startsWith(prefix + 'leave')) voiceChannelLeave(message);
 
-    if(messageText.startsWith('${prefix}leave')) voiceChannelLeave(message);
-
-    if(messageText.startsWith('${prefix}play')) executePlayCommand(message, voiceChannel);
+    if(messageText.startsWith(prefix + 'play')) executePlayCommand(message, voiceChannel);
 
 })
 
