@@ -44,11 +44,8 @@ function voiceChannelJoin(message, voiceChannel) {
 }
 
 function voiceChannelLeave(message, voiceChannel) {
-    console.log('channel: ' + message.guild.me.voice.channel);
-    console.log('voice: ' + message.guild.me.voice);
-    if (!message.guild.me.voice.channel) return message.reply("Not in any voice channel.");
-
-    const connection = getVoiceConnection(voiceChannel.guildId);
+    let connection = message.guild.voiceConnection;
+    if (!connection) return message.reply("Not in any voice channel.");
     connection.disconnect();
     connection.destroy();
 }
