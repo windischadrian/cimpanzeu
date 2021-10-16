@@ -44,6 +44,7 @@ function voiceChannelJoin(message, voiceChannel) {
                 guildId: voiceChannel.guild.id,
                 adapterCreator:voiceChannel.guild.voiceAdapterCreator,
             });
+            console.log('Connection created ' + connection);
         } else {
             message.reply("Already connected to a voice channel.").then(msg => {
                 setTimeout(() => {
@@ -61,7 +62,7 @@ function voiceChannelJoin(message, voiceChannel) {
 }
 
 function voiceChannelLeave(message, voiceChannel) {
-    console.log('client: ' + client);
+    console.log('client: ' + client.voice);
     console.log('connections: ' + client.voice.connections);
     if (client.voice.connections) {
         const connection = getVoiceConnection(voiceChannel.guild.id);
