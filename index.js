@@ -42,13 +42,14 @@ client.on("message", async message => {
     if (!isReady) return;
     if (message.author.bot) return;
 
-    let messageChannel = message.channel;
     let voiceChannel = message.member.voice.channel;
     let messageText = message.content.toLowerCase();
 
-    if(messageText === '?join') voiceChannelJoin(message, voiceChannel);
+    if(messageText.startsWith('${prefix}join')) voiceChannelJoin(message, voiceChannel);
 
-    if(messageText === '?leave') voiceChannelLeave(message, voiceChannel);
+    if(messageText.startsWith('${prefix}leave')) voiceChannelLeave(message);
+
+    if(messageText.startsWith('${prefix}play')) executePlayCommand(message, voiceChannel);
 
 })
 
@@ -76,10 +77,11 @@ function voiceChannelJoin(message, voiceChannel) {
       };
 
     queue.set(message.guild.id, queueConstruct);
+    message.channel.send('Joined ' + voiceChannel.name + ' channel. Use ' + prefix + 'play to add songs to the queue.')
 
 }
 
-function voiceChannelLeave(message, voiceChannel) {
+function voiceChannelLeave(message) {
     let connection = queue.get(message.guild.id).connection;
 
     if (!connection) return message.reply("Not in any voice channel.");
@@ -88,5 +90,17 @@ function voiceChannelLeave(message, voiceChannel) {
     connection.destroy();
 
     queue.get(message.guild.id).connection = null;
+}
+
+function executePlayCommand(message, voiceChannel) {
+    const messageChannel = message.channel;
+    const audioName = message.content.split(' ')[1]; // "audioName"
+
+    if (!voiceChannel) return message.reply("You need to be in a voice channel.");
+
+    if (!queue.get(message.guild.id)) voiceChannelJoin(message, voiceChannel);
+
+    messageChannel.send('Added ' + audioName + ' to the queue.');
+    
 }
 
