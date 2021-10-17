@@ -222,7 +222,7 @@ function executeQueueueueCommand(message) {
     embedMessage = new MessageEmbed().setTitle('Songs in queueueueueue: ');
     var i = 1;
     serverQueue.songs.forEach(song => {
-        embedMessage.addField(i, song.title);
+        embedMessage.addField(i + ' - ', song.title);
         i++;
     });
     message.channel.send({embeds: embedMessage});
