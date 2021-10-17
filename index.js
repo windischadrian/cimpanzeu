@@ -114,9 +114,7 @@ async function executePlayCommand(message, voiceChannel) {
         var audioUrl = audioName;
         if (!audioUrl.match(/(youtube.com|watch?v=)/)) {
             console.log('Nu e url.');
-            await searchYoutubeAsync(audioUrl).then(url => {
-                audioUrl = url;
-            });
+            audioUrl = await searchYoutubeAsync(audioName);
             console.log('Got url: ' + audioUrl);
         }
         console.log('Url: ' + audioUrl);
@@ -140,10 +138,10 @@ async function executePlayCommand(message, voiceChannel) {
 
 async function searchYoutubeAsync(songName) {
     // var videoInfo = await ytsr(songName, { limit: 1});
-    await ytsr.search(songName).then(result => { 
-        console.log('Url de aici: ' + result[0].url);
-        return result[0].url;
-    });
+    const videoResult = await ytsr.search(songName);
+    const videoUrl = videoResult[0].url;
+    console.log('Url received: ' + videoUrl);
+    return videoUrl;
 }
 
 function play(message) {
