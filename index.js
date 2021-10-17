@@ -116,8 +116,7 @@ function voiceChannelLeave(message) {
 
 async function executePlayCommand(message, voiceChannel) {
     const messageChannel = message.channel;
-    const audioName = message.content.substr(`${prefix}play`.length);
-    audioName.replace(/\s/g, '');
+    audioName = message.content.substr(`${prefix}play`.length).trim();
 
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
