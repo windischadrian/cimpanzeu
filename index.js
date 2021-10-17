@@ -139,6 +139,7 @@ async function executePlayCommand(message, voiceChannel) {
 async function searchYoutubeAsync(songName) {
     // var videoInfo = await ytsr(songName, { limit: 1});
     await ytsr.search(songName).then(result => { 
+        console.log('Url de aici: ' + result[0].url);
         return result[0].url;
     });
 }
