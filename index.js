@@ -167,6 +167,7 @@ async function searchYoutubeAsync(songName) {
 }
 
 async function play(message) {
+    const messageChannel = message.channel;
     const guildId = message.guild.id;
     const serverQueue = queue.get(guildId);
     const song = serverQueue.songs[0];
@@ -229,6 +230,7 @@ function executeStopCommand(message) {
 }
 
 function executeQueueueueCommand(message) {
+    const messageChannel = message.channel;
     try {
         const serverQueue = queue.get(message.guild.id);
 
@@ -243,7 +245,7 @@ function executeQueueueueCommand(message) {
         qMessage+='*';
         message.channel.send(qMessage);
     } catch (err) {
-        message.channel.reply(`Shit went sideways\n${err}`);
+        messageChannel.reply(`Shit went sideways\n${err}`);
     }
     
 }
