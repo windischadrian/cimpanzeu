@@ -3,6 +3,7 @@ require('dotenv').config()
 const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
+const ytdl = require('ytdl-core');
 const prefix = '?';
 isReady = false;
 
@@ -45,11 +46,15 @@ client.on("message", async message => {
     let voiceChannel = message.member.voice.channel;
     let messageText = message.content.toLowerCase();
     
-    if(messageText.startsWith(prefix + 'join')) voiceChannelJoin(message, voiceChannel);
+    if(messageText.startsWith(`${prefix}join`)) voiceChannelJoin(message, voiceChannel);
 
-    if(messageText.startsWith(prefix + 'leave')) voiceChannelLeave(message);
+    if(messageText.startsWith(`${prefix}leave`)) voiceChannelLeave(message);
 
-    if(messageText.startsWith(prefix + 'play')) executePlayCommand(message, voiceChannel);
+    if(messageText.startsWith(`${prefix}play`)) executePlayCommand(message, voiceChannel);
+
+    if(messageText.startsWith(`${prefix}skip`)) executeSkipCommand(message);
+
+    if(messageText.startsWith(`${prefix}stop`)) executeStopCommand(message);
 
 })
 
@@ -77,7 +82,7 @@ function voiceChannelJoin(message, voiceChannel) {
       };
 
     queue.set(message.guild.id, queueConstruct);
-    message.channel.send('Joined ' + voiceChannel.name + ' channel. Use ' + prefix + 'play to add songs to the queue.')
+    message.channel.send(`Joined ${voiceChannel.name} channel. Use ${prefix}play to add songs to the queue.`)
 
 }
 
@@ -100,9 +105,73 @@ function executePlayCommand(message, voiceChannel) {
 
     if (!audioName) return message.reply("Forgot song title?");
 
-    if (!queue.get(message.guild.id)) voiceChannelJoin(message, voiceChannel);
+    const serverQueue = queue.get(message.guild.id);
+    if (!serverQueue) voiceChannelJoin(message, voiceChannel);
 
-    messageChannel.send('Added *' + audioName + '* to the queue.');
+    try {
+        const songInfo = await ytdl.getInfo(audioName);
+        const song = {
+            title: songInfo.videoDetails.title,
+            url: songInfo.videoDetails.video_url,
+        }
+
+        serverQueue.songs.push(song);
+
+        if (!serverQueue.playing) play(message);
+
+        messageChannel.send(`Added **${song.title}** to the queue.`);
+    } catch (err) {
+        console.log(err);
+        queue.delete(message.guild.id);
+        return messageChannel.send(`Encountered an error: ${err}`);
+    }
     
 }
 
+function play(message) {
+    const guildId = message.guild.id;
+    const serverQueue = queue.get(guildId);
+    const song = serverQueue.songs[0];
+
+    if (!song) {
+        serverQueue.voiceChannel.leave();
+        queue.delete(guildId);
+        return;
+    }
+
+    const dispatcher = serverQueue.connection
+    .play(ytdl(song.url))
+    .on("finish", () => {
+        serverQueue.songs.shift();
+        play(message);
+    })
+        .on("error", error => console.error(error));
+
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.textChannel.send(`Playing: **${song.title}**`);
+
+}
+
+function executeSkipCommand(message) {
+    const serverQueue = queue.get(message.guild.id);
+
+    if (!message.member.voice.channel) return message.reply("You need to be in a voice channel.");
+
+    if (!serverQueue) return message.reply("No songs currently playing.");
+
+    message.reply("Skipped current song.");
+    serverQueue.songs.shift();
+    play(message)
+}
+
+function executeStopCommand(message) {
+    const serverQueue = queue.get(message.guild.id);
+
+    if (!message.member.voice.channel) return message.reply("You need to be in a voice channel.");
+
+    if (!serverQueue) return message.reply("No songs currently playing.");
+
+    message.reply("Stopped playing songs.");
+    serverQueue.connection.dispatcher.end();
+    queue.delete(message.guild.id);
+}
