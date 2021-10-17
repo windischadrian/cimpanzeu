@@ -83,7 +83,11 @@ function voiceChannelJoin(message, voiceChannel) {
         textChannel: message.channel,
         voiceChannel: voiceChannel,
         connection: connection,
-        musicStream: createAudioPlayer(),
+        musicStream: createAudioPlayer({
+            behaviors: {
+                noSubscriber: NoSubscriberBehavior.Play
+            }
+        }),
         songs: [],
         search: [],
         volume: 5,
@@ -169,6 +173,8 @@ async function play(message) {
     })
 
     serverQueue.musicStream.play(resource);
+
+    serverQueue.connection.subscribe(serverQueue.musicStream);
 
     serverQueue.textChannel.send(`Playing: **${song.title}**`);
 
