@@ -84,7 +84,7 @@ function voiceChannelJoin(message, voiceChannel) {
       };
 
     queue.set(message.guild.id, queueConstruct);
-    message.channel.send(`Joined ${voiceChannel.name} channel. Use ${prefix}play to add songs to the queue.`)
+    message.channel.send(`Joined ${voiceChannel.name} channel. Use **${prefix}play** to add songs to the queue.`)
 
 }
 
@@ -120,7 +120,9 @@ async function executePlayCommand(message, voiceChannel) {
             title: songInfo.videoDetails.title,
             url: songInfo.videoDetails.video_url,
         }
-
+        
+        console.log('Song: ' + song);
+        console.log('serverQueue: ' + serverQueue);
         serverQueue.songs.push(song);
 
         if (!serverQueue.playing) play(message);
