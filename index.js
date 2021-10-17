@@ -11,6 +11,7 @@ const playdl = require('play-dl');
 // const ytsr = require('ytsr');
 const ytsr = require('youtube-search-without-api-key');
 const prefix = '?';
+isready = false;
 
 const queue = new Map();
 
@@ -39,6 +40,7 @@ const queueConstruct = {
 client.login(process.env.BOT_TOKEN);
 
 client.on("ready", () => {
+    isReady = true;
     console.log("Bot is ready");
 })
 
