@@ -114,7 +114,9 @@ async function executePlayCommand(message, voiceChannel) {
         var audioUrl = audioName;
         if (!audioUrl.match(/(youtube.com|watch?v=)/)) {
             console.log('Nu e url.');
-            audioUrl = await searchYoutubeAsync(audioUrl);
+            await searchYoutubeAsync(audioUrl).then(url => {
+                audioUrl = url;
+            });
             console.log('Got url: ' + audioUrl);
         }
         console.log('Url: ' + audioUrl);
