@@ -136,12 +136,14 @@ async function executePlayCommand(message, voiceChannel) {
             songInfo = {
                 title: 'Plm e d-aia cu link',
                 url: audioName,
+                duration: '00:00'
             }
         }
  
         const song = {
             title: songInfo.title,
             url: songInfo.url,
+            duration: songInfo.duration_raw,
         }
         
         serverQueue.songs.push(song);
@@ -232,12 +234,13 @@ function executeQueueueueCommand(message) {
 
         if (!serverQueue) message.channel.reply('Not playing any songs or some shit.');
     
-        var qMessage = 'Songs in queueueueueueue:\n';
+        var qMessage = '*Songs in queueueueueueue:\n';
         var i = 1;
         serverQueue.songs.forEach(song => {
-            qMessage+= i + ' - ' + song.title + '\n';
+            qMessage+= i + ' - ' + song.title + ' - ' + song.duration + '\n';
             i++;
         });
+        qMessage+='*';
         message.channel.send(qMessage);
     } catch (err) {
         message.channel.reply(`Shit went sideways\n${err}`);
