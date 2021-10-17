@@ -147,6 +147,7 @@ function play(message) {
     const guildId = message.guild.id;
     const serverQueue = queue.get(guildId);
     const song = serverQueue.songs[0];
+    console.log('connection: ' + serverQueue.connection);
 
     if (!song) {
         serverQueue.voiceChannel.leave();
