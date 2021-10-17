@@ -99,7 +99,7 @@ function voiceChannelLeave(message) {
 
 async function executePlayCommand(message, voiceChannel) {
     const messageChannel = message.channel;
-    const audioName = message.content.split(' ')[1]; // "audioName"
+    const audioName = message.content.substr(`${preix}play`.length); // "audioName"
 
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
@@ -122,7 +122,6 @@ async function executePlayCommand(message, voiceChannel) {
         messageChannel.send(`Added **${song.title}** to the queue.`);
     } catch (err) {
         console.log(err);
-        queue.delete(message.guild.id);
         return messageChannel.send(`Encountered an error: ${err}`);
     }
     
