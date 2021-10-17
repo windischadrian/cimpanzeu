@@ -141,7 +141,7 @@ async function executePlayCommand(message, voiceChannel) {
 
         if (!serverQueue.playing) play(message);
 
-        messageChannel.send(`Added **${song.title}** to the queue --- ${song.url}`);
+        messageChannel.send(`Added **${song.title}** to the queue.\n${song.url}`);
     } catch (err) {
         console.log(err);
         return messageChannel.send(`Encountered an error: ${err}`);
@@ -221,7 +221,7 @@ function executeQueueueueCommand(message) {
     const serverQueue = queue.get(message.guild.id);
     embedMessage = new MessageEmbed().setTitle('Songs in queueueueueue: ');
     var i = 1;
-    serverQueue.songs.array.forEach(song => {
+    serverQueue.songs.forEach(song => {
         embedMessage.addField(i, song.title);
         i++;
     });
