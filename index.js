@@ -133,9 +133,10 @@ async function executePlayCommand(message, voiceChannel) {
         if (!audioName.includes('www.youtube.com/watch?v=')) {
             songInfo = await searchYoutubeAsync(audioName);
         } else {
-            console.log(audioName);
-            var plm = await playdl.stream(audioName);
-            console.log(plm);
+            songInfo = {
+                title: 'Plm e d-aia cu link',
+                url: audioName,
+            }
         }
  
         const song = {
