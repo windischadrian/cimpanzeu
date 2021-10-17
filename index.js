@@ -4,7 +4,8 @@ const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
 const ytdl = require('ytdl-core');
-const ytsr = require('ytsr');
+// const ytsr = require('ytsr');
+const ytsr = require('youtube-search-without-api-key');
 const prefix = '?';
 isReady = false;
 
@@ -133,7 +134,10 @@ async function executePlayCommand(message, voiceChannel) {
 }
 
 async function searchYoutubeAsync(songName) {
-    var videoUrl = await ytsr(songName, { limit: 1});
+    // var videoInfo = await ytsr(songName, { limit: 1});
+    var videoInfo = await ytsr.search(songName);
+    var videoUrl = videoInfo.url;
+    console.log(videoUrl);
     return videoUrl;
 }
 

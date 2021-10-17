@@ -21,6 +21,7 @@
     "libsodium-wrappers": "^0.7.9",
     "nodemon": "^2.0.13",
     "youtube-api": "^3.0.1",
+    "youtube-search-without-api-key": "^1.0.6",
     "ytdl-core": "^4.9.1",
     "ytsr": "^3.5.3"
   },
