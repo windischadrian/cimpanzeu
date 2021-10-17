@@ -155,6 +155,7 @@ function play(message) {
     }
 
     const stream = ytdl(song.url, {filter : 'audioonly'}) 
+    console.log(serverQueue.connection);
     const subscription = serverQueue.connection.subscribe(stream);
 
     // const dispatcher = serverQueue.connection
