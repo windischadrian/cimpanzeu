@@ -97,7 +97,7 @@ function voiceChannelLeave(message) {
     queue.delete(message.guild.id);
 }
 
-function executePlayCommand(message, voiceChannel) {
+async function executePlayCommand(message, voiceChannel) {
     const messageChannel = message.channel;
     const audioName = message.content.split(' ')[1]; // "audioName"
 
