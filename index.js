@@ -83,8 +83,6 @@ function voiceChannelJoin(message, voiceChannel) {
         playing: false
       };
 
-      console.log('Struct created: ' + queueConstruct);
-
     queue.set(message.guild.id, queueConstruct);
     message.channel.send(`Joined ${voiceChannel.name} channel. Use **${prefix}play** to add songs to the queue.`)
 
@@ -109,16 +107,11 @@ async function executePlayCommand(message, voiceChannel) {
 
     if (!audioName) return message.reply("Forgot song title?");
 
-    const serverQueue = queue.get(message.guild.id);
-    console.log('queue from play command: '+ serverQueue);
+    var serverQueue = queue.get(message.guild.id);
     if (!serverQueue) {
-        console.log('Creating queue');
         voiceChannelJoin(message, voiceChannel);
+        serverQueue = queue.get(message.guild.id)
     }
-
-    console.log('queue entries: ' + queue.entries);
-    console.log('queue: ' + queue);
-    console.log('queue from play command: '+ serverQueue);
 
     try {
         var audioUrl = audioName;
@@ -131,8 +124,6 @@ async function executePlayCommand(message, voiceChannel) {
             url: songInfo.videoDetails.video_url,
         }
         
-        console.log('Song: ' + song);
-        console.log('serverQueue: ' + serverQueue);
         serverQueue.songs.push(song);
 
         if (!serverQueue.playing) play(message);
