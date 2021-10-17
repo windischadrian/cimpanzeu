@@ -5,7 +5,8 @@ const {
     getVoiceConnection, 
     joinVoiceChannel, 
     createAudioResource,
-    createAudioPlayer 
+    createAudioPlayer,
+    NoSubscriberBehavior
 } = require('@discordjs/voice');
 const client = new Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
 const playdl = require('play-dl');
