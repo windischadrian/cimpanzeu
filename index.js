@@ -4,6 +4,7 @@ const { Client, Intents, Channel } = require('discord.js');
 const { 
     getVoiceConnection, 
     joinVoiceChannel, 
+    createAudioResource,
     createAudioPlayer 
 } = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
