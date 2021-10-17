@@ -7,7 +7,7 @@ const {
     createAudioResource,
     createAudioPlayer 
 } = require('@discordjs/voice');
-const client = new Client({ intents: 641 });
+const client = new Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
 const playdl = require('play-dl');
 // const ytsr = require('ytsr');
 const ytsr = require('youtube-search-without-api-key');
@@ -162,8 +162,6 @@ async function play(message) {
     }
 
     const stream = await playdl.stream(song.url);
-    console.log(song);
-    console.log(stream);
     let resource = createAudioResource(stream.stream, {
         inputType: stream.type
     })
