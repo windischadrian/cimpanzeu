@@ -154,15 +154,20 @@ function play(message) {
         return;
     }
 
-    const dispatcher = serverQueue.connection
-    .playStream(ytdl(song.url, {filter : 'audioonly'}))
-    .on("finish", () => {
-        serverQueue.songs.shift();
-        play(message);
-    })
-    .on("error", error => console.error(error));
+    const subscription = serverQueue.connection.subscribe(
+        ytdl(song.url, {filter : 'audioonly'}),
+        {volume: 5}
+        )
 
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    // const dispatcher = serverQueue.connection
+    // .playStream(ytdl(song.url, {filter : 'audioonly'}))
+    // .on("finish", () => {
+    //     serverQueue.songs.shift();
+    //     play(message);
+    // })
+    // .on("error", error => console.error(error));
+
+    // dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
     serverQueue.textChannel.send(`Playing: **${song.title}**`);
 
 }
