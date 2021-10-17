@@ -230,7 +230,6 @@ function executeStopCommand(message) {
 }
 
 function executeQueueueueCommand(message) {
-    const messageChannel = message.channel;
     try {
         const serverQueue = queue.get(message.guild.id);
 
@@ -245,7 +244,7 @@ function executeQueueueueCommand(message) {
         qMessage+='*';
         message.channel.send(qMessage);
     } catch (err) {
-        messageChannel.reply(`Shit went sideways\n${err}`);
+        message.reply(`Shit went sideways\n${err}`);
     }
     
 }
