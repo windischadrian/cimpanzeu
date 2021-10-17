@@ -147,7 +147,6 @@ function play(message) {
     const guildId = message.guild.id;
     const serverQueue = queue.get(guildId);
     const song = serverQueue.songs[0];
-    console.log('connection: ' + serverQueue.connection);
 
     if (!song) {
         serverQueue.voiceChannel.leave();
@@ -156,12 +155,12 @@ function play(message) {
     }
 
     const dispatcher = serverQueue.connection
-    .play(ytdl(song.url))
+    .playStream(ytdl(song.url, {filter : 'audioonly'}))
     .on("finish", () => {
         serverQueue.songs.shift();
         play(message);
     })
-        .on("error", error => console.error(error));
+    .on("error", error => console.error(error));
 
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
     serverQueue.textChannel.send(`Playing: **${song.title}**`);
