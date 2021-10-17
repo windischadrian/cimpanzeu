@@ -218,11 +218,20 @@ function executeStopCommand(message) {
 }
 
 function executeQueueueueCommand(message) {
-    const serverQueue = queue.get(message.guild.id);
-    var qMessage = 'Songs in queueueueueueue:\n';
-    var i = 1;
-    serverQueue.songs.forEach(song => {
-        qMessage+= i + ' - ' + song.title + '\n';
-    });
-    message.channel.send(qMessage);
+    try {
+        const serverQueue = queue.get(message.guild.id);
+
+        if (!serverQueue) message.channel.reply('Not playing any songs or some shit.');
+    
+        var qMessage = 'Songs in queueueueueueue:\n';
+        var i = 1;
+        serverQueue.songs.forEach(song => {
+            qMessage+= i + ' - ' + song.title + '\n';
+            i++;
+        });
+        message.channel.send(qMessage);
+    } catch (err) {
+        message.channel.reply(`Shit went sideways\n${err}`);
+    }
+    
 }
