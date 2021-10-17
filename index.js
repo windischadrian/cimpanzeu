@@ -162,6 +162,8 @@ async function play(message) {
     }
 
     const stream = await playdl.stream(song.url);
+    console.log(song);
+    console.log(stream);
     let resource = createAudioResource(stream.stream, {
         inputType: stream.type
     })
