@@ -172,7 +172,9 @@ async function play(message) {
     const song = serverQueue.songs[0];
 
     if (!song) {
-        serverQueue.voiceChannel.leave();
+        connection = serverQueue.connection;
+        connection.disconnect();
+        connection.destroy();
         queue.delete(guildId);
         return;
     }
@@ -234,13 +236,12 @@ function executeQueueueueCommand(message) {
 
         if (!serverQueue) return message.reply('Not playing any songs or some shit.');
     
-        var qMessage = '*Songs in queueueueueueue:\n';
+        var qMessage = '*Songs in queueueueueueue:*\n';
         var i = 1;
         serverQueue.songs.forEach(song => {
             qMessage+= i + ' - ' + song.title + ' - ' + song.duration + '\n';
             i++;
         });
-        qMessage+='*';
         message.channel.send(qMessage);
     } catch (err) {
         return message.reply(`Shit went sideways\n${err}`);
