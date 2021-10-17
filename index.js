@@ -116,6 +116,10 @@ async function executePlayCommand(message, voiceChannel) {
         voiceChannelJoin(message, voiceChannel);
     }
 
+    console.log('queue entries: ' + queue.entries);
+    console.log('queue: ' + queue);
+    console.log('queue from play command: '+ serverQueue);
+
     try {
         var audioUrl = audioName;
         if (!audioUrl.match(/(youtube.com|watch?v=)/)) {
