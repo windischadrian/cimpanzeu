@@ -137,7 +137,7 @@ async function searchYoutubeAsync(songName) {
     // var videoInfo = await ytsr(songName, { limit: 1});
     var videoInfo = await ytsr.search(songName);
     var videoUrl = videoInfo.url;
-    console.log(videoUrl);
+    console.log(videoInfo);
     return videoUrl;
 }
 
