@@ -137,7 +137,10 @@ async function executePlayCommand(message, voiceChannel) {
 
 async function searchYoutubeAsync(songName) {
     // var videoInfo = await ytsr(songName, { limit: 1});
-    var videoInfo = await ytsr.search(songName).then(result => { return result[0].url});
+    var videoInfo = await ytsr.search(songName).then(result => { 
+        console.log(result[0]);
+        return result[0].url
+    });
 }
 
 function play(message) {
