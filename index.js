@@ -159,7 +159,6 @@ async function executePlayCommand(message, voiceChannel) {
 }
 
 async function searchYoutubeAsync(songName) {
-    // var videoInfo = await ytsr(songName, { limit: 1});
     const videoResult = await ytsr.search(songName);
     const songInfo = videoResult[0];
     console.log(songInfo);
@@ -233,7 +232,7 @@ function executeQueueueueCommand(message) {
     try {
         const serverQueue = queue.get(message.guild.id);
 
-        if (!serverQueue) message.channel.reply('Not playing any songs or some shit.');
+        if (!serverQueue) message.reply('Not playing any songs or some shit.');
     
         var qMessage = '*Songs in queueueueueueue:\n';
         var i = 1;
