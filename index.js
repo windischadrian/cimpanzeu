@@ -219,11 +219,10 @@ function executeStopCommand(message) {
 
 function executeQueueueueCommand(message) {
     const serverQueue = queue.get(message.guild.id);
-    embedMessage = new MessageEmbed().setTitle('Songs in queueueueueue: ');
+    var qMessage = 'Songs in queueueueueueue:\n';
     var i = 1;
     serverQueue.songs.forEach(song => {
-        embedMessage.addField(i + ' - ', song.title);
-        i++;
+        qMessage+= i + ' - ' + song.title + '\n';
     });
-    message.channel.send({embeds: embedMessage});
+    message.channel.send(qMessage);
 }
