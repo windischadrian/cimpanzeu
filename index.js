@@ -141,7 +141,7 @@ async function executePlayCommand(message, voiceChannel) {
 
         if (!serverQueue.playing) play(message);
 
-        messageChannel.send(`Added **${song.title}** to the queue.`);
+        messageChannel.send(`Added **${song.title}** to the queue --- ${song.url}`);
     } catch (err) {
         console.log(err);
         return messageChannel.send(`Encountered an error: ${err}`);
