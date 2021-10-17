@@ -21,7 +21,8 @@
     "libsodium-wrappers": "^0.7.9",
     "nodemon": "^2.0.13",
     "youtube-api": "^3.0.1",
-    "ytdl-core": "^4.9.1"
+    "ytdl-core": "^4.9.1",
+    "ytsr": "^3.5.3"
   },
   "engines": {
     "node": "16.11.1"

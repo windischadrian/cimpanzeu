@@ -4,6 +4,7 @@ const { Client, Intents, Channel } = require('discord.js');
 const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
 const ytdl = require('ytdl-core');
+const ytsr = require('ytsr');
 const prefix = '?';
 isReady = false;
 
@@ -109,7 +110,11 @@ async function executePlayCommand(message, voiceChannel) {
     if (!serverQueue) voiceChannelJoin(message, voiceChannel);
 
     try {
-        const songInfo = await ytdl.getInfo(audioName);
+        var audioUrl = audioName;
+        if (!audioUrl.match(/(youtube.com|watch?v=)/)) {
+            audioUrl = await searchYoutubeAsync(audioUrl);
+        }
+        const songInfo = await ytdl.getInfo(audioUrl);
         const song = {
             title: songInfo.videoDetails.title,
             url: songInfo.videoDetails.video_url,
@@ -125,6 +130,11 @@ async function executePlayCommand(message, voiceChannel) {
         return messageChannel.send(`Encountered an error: ${err}`);
     }
     
+}
+
+async function searchYoutubeAsync(songName) {
+    var videoUrl = await ytsr(songName, { limit: 1});
+    return videoUrl;
 }
 
 function play(message) {
