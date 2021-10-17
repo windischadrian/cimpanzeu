@@ -150,7 +150,7 @@ async function searchYoutubeAsync(songName) {
     return songInfo;
 }
 
-function play(message) {
+async function play(message) {
     const guildId = message.guild.id;
     const serverQueue = queue.get(guildId);
     const song = serverQueue.songs[0];
