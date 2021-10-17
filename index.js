@@ -1,13 +1,16 @@
 require('dotenv').config()
 
 const { Client, Intents, Channel } = require('discord.js');
-const { getVoiceConnection, joinVoiceChannel } = require('@discordjs/voice');
+const { 
+    getVoiceConnection, 
+    joinVoiceChannel, 
+    createAudioPlayer 
+} = require('@discordjs/voice');
 const client = new Client({ intents: 641 });
-const ytdl = require('ytdl-core');
+const playdl = require('play-dl');
 // const ytsr = require('ytsr');
 const ytsr = require('youtube-search-without-api-key');
 const prefix = '?';
-isReady = false;
 
 const queue = new Map();
 
@@ -16,6 +19,7 @@ const queueConstruct = {
     textChannel: message.channel,
     voiceChannel: voiceChannel,
     connection: null,
+    musicStream: createAudioPlayer(),
     songs: [],
     search: [],
     volume: 5,
@@ -35,7 +39,6 @@ const queueConstruct = {
 client.login(process.env.BOT_TOKEN);
 
 client.on("ready", () => {
-    isReady = true;
     console.log("Bot is ready");
 })
 
@@ -77,6 +80,7 @@ function voiceChannelJoin(message, voiceChannel) {
         textChannel: message.channel,
         voiceChannel: voiceChannel,
         connection: connection,
+        musicStream: createAudioPlayer(),
         songs: [],
         search: [],
         volume: 5,
@@ -154,19 +158,13 @@ function play(message) {
         return;
     }
 
-    const stream = ytdl(song.url, {filter : 'audioonly'}) 
-    console.log(serverQueue.connection);
-    const subscription = serverQueue.connection.subscribe(stream);
+    const stream = playdl.stream(song.url)     
+    let resource = createAudioResource(stream.stream, {
+        inputType: stream.type
+    })
 
-    // const dispatcher = serverQueue.connection
-    // .playStream(ytdl(song.url, {filter : 'audioonly'}))
-    // .on("finish", () => {
-    //     serverQueue.songs.shift();
-    //     play(message);
-    // })
-    // .on("error", error => console.error(error));
+    serverQueue.musicStream.play(resource);
 
-    // dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
     serverQueue.textChannel.send(`Playing: **${song.title}**`);
 
 }
