@@ -113,12 +113,9 @@ async function executePlayCommand(message, voiceChannel) {
     try {
         var audioUrl = audioName;
         if (!audioUrl.match(/(youtube.com|watch?v=)/)) {
-            console.log('Nu e url.');
             audioUrl = await searchYoutubeAsync(audioName);
-            console.log('Got url: ' + audioUrl);
         }
-        console.log('Url: ' + audioUrl);
-        const songInfo = await ytdl.getInfo(audioUrl).then(result => console.log(result));
+        const songInfo = await ytdl.getInfo(audioUrl);
         const song = {
             title: songInfo.videoDetails.title,
             url: songInfo.videoDetails.video_url,
@@ -140,7 +137,6 @@ async function searchYoutubeAsync(songName) {
     // var videoInfo = await ytsr(songName, { limit: 1});
     const videoResult = await ytsr.search(songName);
     const videoUrl = videoResult[0].url;
-    console.log('Url received: ' + videoUrl);
     return videoUrl;
 }
 
