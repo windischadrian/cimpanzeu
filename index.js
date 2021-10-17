@@ -155,7 +155,7 @@ function play(message) {
     }
 
     const connection = serverQueue.connection;
-    const connection1 = getVoiceConnection(voiceChannel.guild.id);
+    const connection1 = getVoiceConnection(serverQueue.voiceChannel.guild.id);
     console.log(connection);
     console.log(connection1);
     console.log(connection === connection1)
