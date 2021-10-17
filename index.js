@@ -117,6 +117,7 @@ function voiceChannelLeave(message) {
 async function executePlayCommand(message, voiceChannel) {
     const messageChannel = message.channel;
     const audioName = message.content.substr(`${prefix}play`.length);
+    audioName.replace(/\s/g, '');
 
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
@@ -159,6 +160,7 @@ async function searchYoutubeAsync(songName) {
     // var videoInfo = await ytsr(songName, { limit: 1});
     const videoResult = await ytsr.search(songName);
     const songInfo = videoResult[0];
+    console.log(songInfo);
     return songInfo;
 }
 
