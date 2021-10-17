@@ -232,7 +232,7 @@ function executeQueueueueCommand(message) {
     try {
         const serverQueue = queue.get(message.guild.id);
 
-        if (!serverQueue) message.reply('Not playing any songs or some shit.');
+        if (!serverQueue) return message.reply('Not playing any songs or some shit.');
     
         var qMessage = '*Songs in queueueueueueue:\n';
         var i = 1;
@@ -243,7 +243,7 @@ function executeQueueueueCommand(message) {
         qMessage+='*';
         message.channel.send(qMessage);
     } catch (err) {
-        message.reply(`Shit went sideways\n${err}`);
+        return message.reply(`Shit went sideways\n${err}`);
     }
     
 }
