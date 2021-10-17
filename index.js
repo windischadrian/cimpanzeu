@@ -144,7 +144,7 @@ async function executePlayCommand(message, voiceChannel) {
         messageChannel.send(`Added **${song.title}** to the queue.\n${song.url}`);
     } catch (err) {
         console.log(err);
-        return messageChannel.send(`Encountered an error: ${err}`);
+        return messageChannel.send(`Shit went sideways\n${err}`);
     }
     
 }
@@ -188,7 +188,7 @@ async function play(message) {
 
     } catch (err) {
         console.log(err);
-        return messageChannel.send(`Encountered an error: ${err}`);
+        return messageChannel.send(`Shit went sideways\n${err}`);
     }
     
 }
