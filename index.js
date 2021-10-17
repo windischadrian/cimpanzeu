@@ -130,7 +130,12 @@ async function executePlayCommand(message, voiceChannel) {
 
     try {
         var songInfo;
-        songInfo = await searchYoutubeAsync(audioName);
+        if (!audioName.includes('www.youtube.com/watch?v=') {
+            songInfo = await searchYoutubeAsync(audioName);
+        } else {
+            var plm = await playdl.stream(audioName);
+            console.log(plm);
+        }
  
         const song = {
             title: songInfo.title,
