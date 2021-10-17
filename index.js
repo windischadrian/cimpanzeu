@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const { Client, Intents, Channel } = require('discord.js');
+const { Client, Intents, Channel, MessageEmbed } = require('discord.js');
 const { 
     getVoiceConnection, 
     joinVoiceChannel, 
@@ -64,6 +64,8 @@ client.on("message", async message => {
     if(messageText.startsWith(`${prefix}skip`)) executeSkipCommand(message);
 
     if(messageText.startsWith(`${prefix}stop`)) executeStopCommand(message);
+
+    if(messageText.startsWith(`${prefix}q`)) executeQueueueueCommand(message);
 
 })
 
@@ -214,4 +216,15 @@ function executeStopCommand(message) {
     message.reply("Stopped playing songs.");
     serverQueue.connection.dispatcher.end();
     queue.delete(message.guild.id);
+}
+
+function executeQueueueueCommand(message) {
+    const serverQueue = queue.get(message.guild.id);
+    embedMessage = new MessageEmbed().setTitle('Songs in queueueueueue: ');
+    var i = 1;
+    serverQueue.songs.array.forEach(song => {
+        embedMessage.addField(i, song.title);
+        i++;
+    });
+    message.channel.send({embeds: embedMessage});
 }
