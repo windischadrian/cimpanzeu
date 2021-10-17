@@ -154,16 +154,8 @@ function play(message) {
         return;
     }
 
-    const connection = serverQueue.connection;
-    const connection1 = getVoiceConnection(serverQueue.voiceChannel.guild.id);
-    console.log(connection);
-    console.log(connection1);
-    console.log(connection === connection1)
-    console.log(connection == connection1)
-    const subscription = connection1.subscribe(
-        ytdl(song.url, {filter : 'audioonly'}),
-        {volume: 5}
-        )
+    const stream = ytdl(song.url, {filter : 'audioonly'}) 
+    const subscription = serverQueue.connection.subscribe(stream);
 
     // const dispatcher = serverQueue.connection
     // .playStream(ytdl(song.url, {filter : 'audioonly'}))
