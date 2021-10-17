@@ -165,20 +165,24 @@ async function play(message) {
         queue.delete(guildId);
         return;
     }
+    try {
+        const stream = await playdl.stream(song.url);
+        console.log(song);
+        console.log(stream);
+        let resource = createAudioResource(stream.stream, {
+            inputType: stream.type
+        })
 
-    const stream = await playdl.stream(song.url);
-    console.log(song);
-    console.log(stream);
-    let resource = createAudioResource(stream.stream, {
-        inputType: stream.type
-    })
+        serverQueue.musicStream.play(resource);
 
-    serverQueue.musicStream.play(resource);
+        serverQueue.connection.subscribe(serverQueue.musicStream);
 
-    serverQueue.connection.subscribe(serverQueue.musicStream);
-
-    serverQueue.textChannel.send(`Playing: **${song.title}**`);
-
+        serverQueue.textChannel.send(`Playing: **${song.title}**`);
+    } catch (err) {
+        console.log(err);
+        return messageChannel.send(`Encountered an error: ${err}`);
+    }
+    
 }
 
 function executeSkipCommand(message) {
