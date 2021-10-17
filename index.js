@@ -6,6 +6,7 @@ const {
     joinVoiceChannel, 
     createAudioResource,
     createAudioPlayer,
+    AudioPlayerStatus,
     NoSubscriberBehavior
 } = require('@discordjs/voice');
 const client = new Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
