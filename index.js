@@ -116,7 +116,7 @@ function voiceChannelLeave(message) {
 
 async function executePlayCommand(message, voiceChannel) {
     const messageChannel = message.channel;
-    const audioName = message.content.substr(`${prefix}play`.length); // "audioName"
+    const audioName = message.content.substr(`${prefix}play`.length);
 
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
@@ -174,6 +174,7 @@ async function play(message) {
     }
 
     try {
+        console.log('song url: ' + song.url)
         const stream = await playdl.stream(song.url);
         let resource = createAudioResource(stream.stream, {
             inputType: stream.type
