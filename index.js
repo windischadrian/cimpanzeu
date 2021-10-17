@@ -161,7 +161,7 @@ function play(message) {
         return;
     }
 
-    const stream = playdl.stream(song.url);
+    const stream = await playdl.stream(song.url);
     console.log(song);
     console.log(stream);
     let resource = createAudioResource(stream.stream, {
