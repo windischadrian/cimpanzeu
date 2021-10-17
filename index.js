@@ -116,8 +116,7 @@ function voiceChannelLeave(message) {
 
 async function executePlayCommand(message, voiceChannel) {
     const messageChannel = message.channel;
-    audioName = message.content.substr(`${prefix}play`.length).trim();
-
+    audioName = message.content.substr(`${prefix}play`.length);
     if (!voiceChannel) return message.reply("You need to be in a voice channel.");
 
     if (!audioName) return message.reply("Forgot song title?");
@@ -133,6 +132,7 @@ async function executePlayCommand(message, voiceChannel) {
         if (!audioName.includes('www.youtube.com/watch?v=')) {
             songInfo = await searchYoutubeAsync(audioName);
         } else {
+            audioName.trim();
             songInfo = {
                 title: 'Plm e d-aia cu link',
                 url: audioName,
